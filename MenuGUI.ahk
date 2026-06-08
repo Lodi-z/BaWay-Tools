@@ -25,9 +25,10 @@ class MenuGUI {
         ; 基本设置 - 顶部
         this.guiObj.AddGroupBox("x10 y10 w520 h100", "ℹ️ 软件信息").SetFont("w700")
         this.guiObj.AddText("x30 y40 w120", "作者：张一天")
-        this.guiObj.AddButton("yp w120", "查看爱发电主页").OnEvent("Click",(*)=>Run("https://afdian.com/a/luodi"))
-        this.guiObj.AddButton("yp w120", "查看b站主页").OnEvent("Click",(*)=>Run("https://space.bilibili.com/418324770"))
-        this.guiObj.AddText("x30 y70 w120", "版本：v5.3")
+        this.guiObj.AddButton("yp w80", "爱发电主页").OnEvent("Click",(*)=>Run("https://afdian.com/a/luodi"))
+        this.guiObj.AddButton("yp w80", "b站主页").OnEvent("Click",(*)=>Run("https://space.bilibili.com/418324770"))
+        this.guiObj.AddButton("yp w80", "加入QQ群").OnEvent("Click", (*) => this.ShowQQGroupWindow())
+        this.guiObj.AddText("x30 y70 w120", "版本：v" SCRIPT_VERSION)
         this.guiObj.AddPicture("x440 y30 w50 h50 Icon1", "image/icon.ico")
         this.guiObj.AddText("x418 y80 w105", "八维实用小工具").SetFont("w700 c8e2600")
 
@@ -189,6 +190,33 @@ class MenuGUI {
         ; 重启脚本
         Reload
     }
+
+static ShowQQGroupWindow() {
+    qqGui := Gui("-Caption +ToolWindow +Owner" this.guiObj.Hwnd)
+    qqGui.MarginX := 0, qqGui.MarginY := 0
+    qqGui.BackColor := "EEAA99"
+    WinSetTransColor("EEAA99", qqGui)
+
+    qqGui.AddPicture("x0 y0", "image\QQ_qrcode.png")
+    qqGui.Show()
+    qqGui.GetPos(&x, &y, &w, &h)
+
+    ; ---------- 关闭按钮（用 Text 模拟） ----------
+    closeBtn := qqGui.AddText("x" (w - 40) " y10 w25 h25 +0x200 Center Background21262a cWhite", "×")
+    closeBtn.SetFont("s20 cWhite")              ; 确保字体白色
+    closeBtn.OnEvent("Click", (*) => qqGui.Destroy())
+
+    ; ---------- 复制群号按钮（用 Text 模拟） ----------
+    copyBtn := qqGui.AddText("x" (w - 160) " y69 w100 h30 +0x200 Center Background21262a cWhite", "点击复制群号")
+    copyBtn.SetFont("cWhite")
+    copyBtn.OnEvent("Click", (*){
+        A_Clipboard := "1077767807"
+        MsgBox "群号已复制到剪切板","复制成功"
+    })
+
+    this.guiObj.GetPos(&mx, &my, &mw, &mh)
+    qqGui.Show("x" (mx + mw // 2 - w // 2) " y" (my + mh // 2 - h // 2) " NA")
+}
 
     ; 关闭窗口时的处理
     static OnClose() {

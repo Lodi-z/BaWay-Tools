@@ -1,4 +1,11 @@
-﻿#Include ConfigManager.ahk
+﻿/************************************************************************
+ * @description 做对八维学生有用的工具
+ * @author 张一天
+ * @date 2026/06/08
+ * @version 5.3
+ ***********************************************************************/
+
+#Include ConfigManager.ahk
 #Include HotkeyManager.ahk
 #Include TransparencyTools.ahk
 #Include TopmostTools.ahk
@@ -6,6 +13,7 @@
 #Include AccountTools.ahk
 #Include MenuGUI.ahk
 ; ========================全局变量==========================
+SCRIPT_VERSION := "5.3"
 A_HotkeyInterval := 2
 ConfigManager.Load
 
